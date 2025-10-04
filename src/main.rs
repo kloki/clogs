@@ -34,7 +34,6 @@ fn main() {
     let args = Args::parse();
     let stdin = io::stdin();
     let handle = stdin.lock();
-    dbg!(&args);
 
     for line in handle.lines() {
         match line {
