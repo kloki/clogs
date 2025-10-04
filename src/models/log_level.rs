@@ -4,6 +4,7 @@ use colorize::AnsiColor;
 use serde::{Deserialize, Deserializer};
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Default)]
 pub enum LogLevel {
+    Critical,
     Error,
     Info,
     Warning,
@@ -17,6 +18,7 @@ impl FromStr for LogLevel {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.to_lowercase().as_str() {
+            "critical" => Ok(LogLevel::Critical),
             "error" => Ok(LogLevel::Error),
             "warning" => Ok(LogLevel::Warning),
             "warn" => Ok(LogLevel::Warning),
@@ -41,11 +43,12 @@ impl<'de> Deserialize<'de> for LogLevel {
 impl LogLevel {
     pub fn to_clog(&self) -> String {
         match self {
-            LogLevel::Error => " ERROR".redb().black(),
-            LogLevel::Warning => "  WARN".yellowb().black(),
-            LogLevel::Info => "  INFO".greenb().black(),
-            LogLevel::Debug => " DEBUG".blueb().black(),
-            LogLevel::Trace => " TRACE".magentab().black(),
+            LogLevel::Critical => "CRITI".black().redb(),
+            LogLevel::Error => "ERROR".red(),
+            LogLevel::Warning => "WARN ".yellow(),
+            LogLevel::Info => "INFO ".blue(),
+            LogLevel::Debug => "DEBUG".green(),
+            LogLevel::Trace => "TRACE".magenta(),
         }
     }
 }

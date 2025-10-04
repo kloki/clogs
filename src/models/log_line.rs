@@ -16,24 +16,43 @@ pub struct LogLine {
 }
 
 impl LogLine {
-    pub fn to_clog(&self) -> String {
-        let clog_fields = self
-            .fields
-            .iter()
-            .map(|(k, v)| format!("\n  {}:{}", format!("{:<12}", k).green(), v))
-            .collect::<Vec<_>>()
-            .join("");
+    fn decide_header(&self) -> String {
+        for key in ["message", "label"] {
+            if let Some(content) = self.fields.get(key) {
+                return content.clone();
+            }
+        }
+        "".to_string()
+    }
 
+    fn timestamp_clog(&self) -> String {
+        format!("[{}]", self.timestamp.format("%H:%M:%S").to_string()).grey()
+    }
+    fn fields_clog(&self) -> String {
+        self.fields
+            .iter()
+            .filter(|(k, _)| k != &"message" && k != &"label")
+            .map(|(k, v)| {
+                format!(
+                    "\n           {}:{}",
+                    format!("{:<12}", k).cyan(),
+                    v.to_string().grey()
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("")
+    }
+    pub fn to_single_clog(&self) -> String {
         format!(
-            "{}{}{}",
-            self.timestamp
-                .format("%Y-%m-%d %H:%M:%S")
-                .to_string()
-                .black()
-                .greyb(),
+            "{} {} {}",
+            self.timestamp_clog(),
             self.level.to_clog(),
-            clog_fields,
+            self.decide_header(),
         )
+    }
+
+    pub fn to_multi_clog(&self) -> String {
+        format!("{}{}", self.to_single_clog(), self.fields_clog())
     }
 }
 
