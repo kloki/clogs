@@ -8,7 +8,7 @@ use models::{log_level::LogLevel, log_line::LogLine};
 #[command(version, about, long_about = None)]
 struct Args {
     /// Maximum log level
-    #[arg(short, long, default_value = "debug")]
+    #[arg(short, long, default_value = "trace")]
     log_level: LogLevel,
     /// only print single line per log
     #[arg(short, long, default_value_t = false)]

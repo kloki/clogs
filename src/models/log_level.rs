@@ -43,7 +43,7 @@ impl<'de> Deserialize<'de> for LogLevel {
 impl LogLevel {
     pub fn to_clog(&self) -> String {
         match self {
-            LogLevel::Critical => "CRITI".black().redb(),
+            LogLevel::Critical => "CRITICAL".black().redb(),
             LogLevel::Error => "ERROR".red(),
             LogLevel::Warning => "WARN ".yellow(),
             LogLevel::Info => "INFO ".blue(),
