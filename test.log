@@ -1,0 +1,5 @@
+{"timestamp":"2023-10-01T12:34:56Z","level":"info","fields":{"message":"User successfully logged in.","user_id":"12345","session_id":"abcde12345"}}
+{"timestamp":"2023-10-01T12:35:01Z","level":"warning","fields":{"message":"Login attempt failed due to invalid password.","user_id":"12345"}}
+{"timestamp":"2023-10-01T12:35:10Z","level":"error","fields":{"message":"Database connection failed.","error_code":"DB_CONN_ERR","retry_count":3}}
+{"timestamp":"2023-10-01T12:36:00Z","level":"trace","fields":{"message":"Background job processing started.","job_id":"job_67890","queue":"email_notifications"}}
+{"timestamp":"2023-10-01T12:36:30Z","level":"debug","fields":{"message":"User profile updated.","user_id":"12345","updated_fields":["email","username"]}}
