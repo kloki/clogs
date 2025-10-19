@@ -16,17 +16,15 @@ pub struct LogLine {
 }
 
 impl LogLine {
-    fn decide_header(&self) -> String {
-        for key in ["message", "label"] {
-            if let Some(content) = self.fields.get(key) {
-                return content.clone();
-            }
-        }
-        "".to_string()
-    }
-
     fn timestamp_clog(&self) -> String {
         format!("[{}]", self.timestamp.format("%H:%M:%S").to_string()).grey()
+    }
+
+    fn label_clog(&self) -> String {
+        match self.fields.get("label") {
+            Some(content) => format!("[{}] ", content.clone().cyan()),
+            None => "".to_string(),
+        }
     }
     fn fields_clog(&self) -> String {
         self.fields
@@ -44,10 +42,11 @@ impl LogLine {
     }
     pub fn to_single_clog(&self) -> String {
         format!(
-            "{} {} {}",
+            "{} {} {}{}",
             self.timestamp_clog(),
             self.level.to_clog(),
-            self.decide_header(),
+            self.label_clog(),
+            self.fields.get("message").cloned().unwrap_or_default(),
         )
     }
 

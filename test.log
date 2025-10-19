@@ -5,3 +5,4 @@
 {"timestamp":"2023-10-01T12:36:30Z","level":"debug","fields":{"message":"User profile updated.","user_id":"12345","update":["email","username"]}}
 {"timestamp":"2023-10-01T12:36:30Z","level":"critical","fields":{"label":"temperature","celsius":"100"}}
 {"timestamp":"2023-10-01T12:36:30Z","level":"info","fields":{"celsius":"100"}}
+{"timestamp":"2023-10-01T12:36:30Z","level":"debug","fields":{"label":"temperature","celsius":"100","message": "both"}}
