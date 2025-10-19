@@ -1,8 +1,7 @@
-mod models;
 use std::io::{self, BufRead};
 
 use clap::Parser;
-use models::{log_level::LogLevel, log_line::LogLine};
+use clogs::models::{log_level::LogLevel, log_line::LogLine};
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]

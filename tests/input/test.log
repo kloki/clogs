@@ -3,6 +3,6 @@
 {"timestamp":"2023-10-01T12:35:10Z","level":"error","fields":{"message":"Database connection failed.","error_code":"DB_CONN_ERR","retry_count":3}}
 {"timestamp":"2023-10-01T12:36:00Z","level":"trace","fields":{"message":"Background job processing started.","job_id":"job_67890","queue":"email_notifications"}}
 {"timestamp":"2023-10-01T12:36:30Z","level":"debug","fields":{"message":"User profile updated.","user_id":"12345","update":["email","username"]}}
-{"timestamp":"2023-10-01T12:36:30Z","level":"critical","fields":{"label":"temperature","celsius":"100"}}
-{"timestamp":"2023-10-01T12:36:30Z","level":"info","fields":{"celsius":"100"}}
-{"timestamp":"2023-10-01T12:36:30Z","level":"debug","fields":{"label":"temperature","celsius":"100","message": "both"}}
+{"timestamp":"2023-10-01T12:36:30Z","level":"critical","fields":{"message":"Missing funds","user_id":"12345"}}
+{"timestamp":"2023-10-01T12:35:10Z","level":"trace","fields":{"label":"metrics", "type": "cpu","temp":80}}
+{"timestamp":"2023-10-01T12:35:10Z","level":"trace","fields":{"message": "very high temp!","label":"metrics", "type": "cpu","temp":199}}

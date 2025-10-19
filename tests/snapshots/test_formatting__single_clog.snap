@@ -1,0 +1,5 @@
+---
+source: tests/test_formatting.rs
+expression: result
+---
+"\u001b[37m[12:34:56]\u001b[0;39;49m \u001b[34mINFO \u001b[0;39;49m User successfully logged in.\n\u001b[37m[12:35:01]\u001b[0;39;49m \u001b[33mWARN \u001b[0;39;49m Login attempt failed due to invalid password.\n\u001b[37m[12:35:10]\u001b[0;39;49m \u001b[31mERROR\u001b[0;39;49m Database connection failed.\n\u001b[37m[12:36:00]\u001b[0;39;49m \u001b[35mTRACE\u001b[0;39;49m Background job processing started.\n\u001b[37m[12:36:30]\u001b[0;39;49m \u001b[32mDEBUG\u001b[0;39;49m User profile updated.\n\u001b[37m[12:36:30]\u001b[0;39;49m \u001b[41;30mCRITICAL\u001b[0;39;49m Missing funds\n\u001b[37m[12:35:10]\u001b[0;39;49m \u001b[35mTRACE\u001b[0;39;49m [\u001b[36mmetrics\u001b[0;39;49m] \n\u001b[37m[12:35:10]\u001b[0;39;49m \u001b[35mTRACE\u001b[0;39;49m [\u001b[36mmetrics\u001b[0;39;49m] very high temp!"

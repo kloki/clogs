@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use chrono::{DateTime, Utc};
 use colorize::AnsiColor;
@@ -12,7 +12,7 @@ pub struct LogLine {
     pub timestamp: DateTime<Utc>,
     pub level: LogLevel,
     #[serde(deserialize_with = "deserialize_fields")]
-    pub fields: HashMap<String, String>,
+    pub fields: BTreeMap<String, String>,
 }
 
 impl LogLine {
@@ -55,11 +55,11 @@ impl LogLine {
     }
 }
 
-fn deserialize_fields<'de, D>(deserializer: D) -> Result<HashMap<String, String>, D::Error>
+fn deserialize_fields<'de, D>(deserializer: D) -> Result<BTreeMap<String, String>, D::Error>
 where
     D: Deserializer<'de>,
 {
-    let raw_fields: HashMap<String, Value> = HashMap::deserialize(deserializer)?;
+    let raw_fields: BTreeMap<String, Value> = BTreeMap::deserialize(deserializer)?;
     let fields = raw_fields
         .into_iter()
         .map(|(k, v)| (k, v.to_string().trim_matches('"').to_string()))
