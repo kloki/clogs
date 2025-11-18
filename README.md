@@ -12,9 +12,7 @@ cargo install clogs
 
 ## Binaries
 
-Check [Releases](https://github.com/kloki/clogs/releases) and download the tar file.
-
-For linux run:
+Check [Releases](https://github.com/kloki/clogs/releases) for binaries and installers
 
 # Run
 
