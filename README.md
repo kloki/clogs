@@ -16,10 +16,6 @@ Check [Releases](https://github.com/kloki/clogs/releases) and download the tar f
 
 For linux run:
 
-```bash
-tar -xvf clogs-x86_64-unknown-linux-gnu.tar.xz && cp clogs-x86_64-unknown-linux-gnu/clogs ~/.local/bin/
-```
-
 # Run
 
 ```bash
