@@ -1,6 +1,5 @@
-use std::collections::BTreeMap;
+use std::{collections::BTreeMap, time::Duration};
 
-use chrono::{DateTime, Utc};
 use colorize::AnsiColor;
 use serde::{Deserialize, Deserializer};
 use serde_json::Value;
@@ -9,7 +8,8 @@ use super::log_level::LogLevel;
 
 #[derive(Deserialize)]
 pub struct LogLine {
-    pub timestamp: DateTime<Utc>,
+    #[serde(deserialize_with = "duration_from_str")]
+    pub timestamp: Duration,
     pub level: LogLevel,
     #[serde(deserialize_with = "deserialize_fields")]
     pub fields: BTreeMap<String, String>,
@@ -17,7 +17,7 @@ pub struct LogLine {
 
 impl LogLine {
     fn timestamp_clog(&self) -> String {
-        format!("[{}]", self.timestamp.format("%H:%M:%S").to_string()).grey()
+        format!("{:>6}", format!("[{}]", self.timestamp.as_secs())).grey()
     }
 
     fn label_clog(&self) -> String {
@@ -65,4 +65,17 @@ where
         .map(|(k, v)| (k, v.to_string().trim_matches('"').to_string()))
         .collect();
     Ok(fields)
+}
+
+fn duration_from_str<'de, D>(deserializer: D) -> Result<Duration, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s: String = Deserialize::deserialize(deserializer)?;
+    let secs = s
+        .trim()
+        .trim_end_matches('s')
+        .parse::<f64>()
+        .map_err(serde::de::Error::custom)?;
+    Ok(Duration::from_secs_f64(secs))
 }
