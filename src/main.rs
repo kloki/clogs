@@ -9,16 +9,16 @@ struct Args {
     /// Maximum log level
     #[arg(short, long, default_value = "trace")]
     log_level: LogLevel,
-    /// only print single line per log
+    /// exclude extra fields from the output
     #[arg(short, long, default_value_t = false)]
-    single_line: bool,
+    exclude_fields: bool,
 }
 
-fn handle_line(content: String, max_log_level: &LogLevel, single_line: bool) {
+fn handle_line(content: String, max_log_level: &LogLevel, exclude_fields: bool) {
     match serde_json::from_str::<LogLine>(&content) {
         Ok(log_line) => {
             if log_line.level <= *max_log_level {
-                if single_line {
+                if exclude_fields {
                     println!("{}", log_line.to_single_clog())
                 } else {
                     println!("{}", log_line.to_multi_clog())
@@ -37,7 +37,7 @@ fn main() {
     for line in handle.lines() {
         match line {
             Ok(content) => {
-                handle_line(content, &args.log_level, args.single_line);
+                handle_line(content, &args.log_level, args.exclude_fields);
             }
             Err(_) => break,
         }

@@ -9,8 +9,6 @@ use serde_json::Value;
 
 use super::log_level::LogLevel;
 
-const THREAD_WIDTH: usize = 14;
-
 #[derive(Deserialize)]
 pub struct LogLine {
     #[serde(deserialize_with = "trimmed_string")]
@@ -18,6 +16,8 @@ pub struct LogLine {
     pub level: LogLevel,
     #[serde(rename = "threadName", default)]
     pub thread_name: String,
+    #[serde(default)]
+    pub target: String,
     #[serde(deserialize_with = "deserialize_fields")]
     pub fields: BTreeMap<String, String>,
 }
@@ -37,11 +37,16 @@ impl LogLine {
 
     fn thread_name_clog(&self) -> String {
         if self.thread_name.is_empty() {
-            return " ".repeat(THREAD_WIDTH + 2);
+            return String::new();
         }
-        let name: String = self.thread_name.chars().take(THREAD_WIDTH).collect();
-        let pad = " ".repeat(THREAD_WIDTH - name.chars().count());
-        format!("[{}]{}", color_thread(name, &self.thread_name), pad)
+        format!(
+            "[{}]",
+            color_thread(self.thread_name.clone(), &self.thread_name)
+        )
+    }
+
+    fn target_clog(&self) -> String {
+        self.target.clone().b_grey()
     }
 
     fn label_clog(&self) -> String {
@@ -66,9 +71,10 @@ impl LogLine {
     }
     pub fn to_single_clog(&self) -> String {
         format!(
-            "{}{} {} {}{}",
+            "{}{} {}\n{} {}{}",
             self.timestamp_clog(),
             self.thread_name_clog(),
+            self.target_clog(),
             self.level.to_clog(),
             self.label_clog(),
             self.fields.get("message").cloned().unwrap_or_default(),
