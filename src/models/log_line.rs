@@ -9,6 +9,8 @@ use serde_json::Value;
 
 use super::log_level::LogLevel;
 
+const THREAD_WIDTH: usize = 10;
+
 #[derive(Deserialize)]
 pub struct LogLine {
     #[serde(deserialize_with = "trimmed_string")]
@@ -37,16 +39,15 @@ impl LogLine {
 
     fn thread_name_clog(&self) -> String {
         if self.thread_name.is_empty() {
-            return String::new();
+            return " ".repeat(THREAD_WIDTH + 2);
         }
-        format!(
-            "[{}]",
-            color_thread(self.thread_name.clone(), &self.thread_name)
-        )
+        let name: String = self.thread_name.chars().take(THREAD_WIDTH).collect();
+        let pad = " ".repeat(THREAD_WIDTH - name.chars().count());
+        format!("[{}]{}", color_thread(name, &self.thread_name), pad)
     }
 
     fn target_clog(&self) -> String {
-        self.target.clone().b_grey()
+        self.target.clone().b_black()
     }
 
     fn label_clog(&self) -> String {
@@ -71,13 +72,13 @@ impl LogLine {
     }
     pub fn to_single_clog(&self) -> String {
         format!(
-            "{}{} {}\n{} {}{}",
+            "{}{} {} {}{} {}",
             self.timestamp_clog(),
             self.thread_name_clog(),
-            self.target_clog(),
             self.level.to_clog(),
             self.label_clog(),
             self.fields.get("message").cloned().unwrap_or_default(),
+            self.target_clog(),
         )
     }
 
@@ -89,19 +90,27 @@ impl LogLine {
 fn color_thread(s: String, name: &str) -> String {
     let mut h = DefaultHasher::new();
     name.hash(&mut h);
-    match h.finish() % 12 {
-        0 => s.red(),
-        1 => s.green(),
+    // match h.finish() % 12 {
+    //     0 => s.red(),
+    //     1 => s.green(),
+    //     2 => s.yellow(),
+    //     3 => s.blue(),
+    //     4 => s.magenta(),
+    //     5 => s.cyan(),
+    //     6 => s.b_red(),
+    //     7 => s.b_green(),
+    //     8 => s.b_yellow(),
+    //     9 => s.b_blue(),
+    //     10 => s.b_magenta(),
+    //     _ => s.b_cyan(),
+    // }
+    match h.finish() % 6 {
+        0 => s.green(),
+        1 => s.red(),
         2 => s.yellow(),
-        3 => s.blue(),
-        4 => s.magenta(),
-        5 => s.cyan(),
-        6 => s.b_red(),
-        7 => s.b_green(),
-        8 => s.b_yellow(),
-        9 => s.b_blue(),
-        10 => s.b_magenta(),
-        _ => s.b_cyan(),
+        3 => s.magenta(),
+        4 => s.blue(),
+        _ => s.cyan(),
     }
 }
 
