@@ -25,3 +25,10 @@ Combine with other commands.
 ```bash
 cat test.log | jq -c 'select(.fields.user_id=="12345")' | clogs | less -r
 ```
+
+Some processes log warning and errors over stderr
+
+```bash
+
+your_program 2>&1 | clogs
+```
